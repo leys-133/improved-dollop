@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>رفيق — seven_code7</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="theme-color" content="#16a34a" />
+</head>
+<body>
+  <header class="header container">
+    <div class="logo">ر</div>
+    <div>
+      <div class="brand">رفيق — seven_code7</div>
+      <div class="small">ليث & بالله — تطبيق إسلامي شامل</div>
+    </div>
+  </header>
+
+  <main class="container">
+    <nav class="nav" id="tabs">
+      <button data-tab="home" class="active">الرئيسية</button>
+      <button data-tab="quran">القرآن</button>
+      <button data-tab="adhkar">الأذكار</button>
+      <button data-tab="tasbih">المسبحة</button>
+      <button data-tab="calendar">التقويم</button>
+      <button data-tab="assistant">المساعد</button>
+      <button data-tab="profile">الحساب</button>
+    </nav>
+
+    <!-- HOME -->
+    <section id="home" class="grid">
+      <div class="card">
+        <h2>أوقات الصلاة اليوم</h2>
+        <div class="row">
+          <div class="badge">الموقع: <span id="locName">غير محدد</span></div>
+          <button class="btn" id="detectLocation">تحديد تلقائي</button>
+        </div>
+        <div class="notice small" id="prayerNotice">سنجلب أوقات الصلاة من Aladhan API عند تحديد الموقع.</div>
+        <table id="prayerTimes">
+          <thead><tr><th>الصلاة</th><th>الوقت</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="grid" style="grid-template-columns: repeat(auto-fit,minmax(240px,1fr));">
+        <div class="card">
+          <h2>ذكر اليوم</h2>
+          <div id="dhikrOfDay" class="small">—</div>
+          <div class="row">
+            <button class="btn" id="refreshDhikr">تحديث</button>
+            <button class="btn ghost" id="addToTasbih">أضِف للمسبحة</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>متابعة الختمة</h2>
+          <div class="kpi"><span class="big" id="khatmaProgress">0%</span><span class="small">منجز</span></div>
+          <div class="row">
+            <select id="khatmaSurah"></select>
+            <button class="btn" id="saveKhatma">حفظ</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>عدّاد رمضان</h2>
+          <div class="kpi"><span class="big" id="ramadanCountdown">—</span><span class="small">متبقٍ</span></div>
+          <div class="small">يُحدّث سنويًا حسب التقويم الهجري (تقريبي).</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- QURAN -->
+    <section id="quran" class="grid hidden">
+      <div class="card">
+        <h2>القرآن الكريم — قراءة</h2>
+        <div class="row">
+          <select id="surahList"></select>
+          <button class="btn" id="loadSurah">عرض السورة</button>
+        </div>
+        <div class="quran-text" id="quranText">اختر سورة للعرض…</div>
+      </div>
+
+      <div class="card">
+        <h2>الاستماع للقرّاء</h2>
+        <div class="row">
+          <select id="reciter">
+            <option value="ar.alafasy">مشاري راشد</option>
+            <option value="ar.husary">محمود الحصري</option>
+            <option value="ar.minshawi">محمد المنشاوي</option>
+          </select>
+          <input class="input" id="audioSurah" placeholder="رقم السورة 1-114" />
+          <button class="btn" id="playAudio">تشغيل</button>
+        </div>
+        <audio id="player" controls style="width:100%"></audio>
+        <div class="small">المصدر: Quran APIs/MP3 public — قد تتغيّر الروابط.</div>
+      </div>
+    </section>
+
+    <!-- ADHKAR -->
+    <section id="adhkar" class="grid hidden">
+      <div class="card">
+        <h2>الأذكار اليومية</h2>
+        <div class="row">
+          <select id="adhkarType">
+            <option value="morning">أذكار الصباح</option>
+            <option value="evening">أذكار المساء</option>
+            <option value="after_prayer">بعد الصلاة</option>
+            <option value="sleep">النوم</option>
+          </select>
+          <button class="btn" id="loadAdhkar">عرض</button>
+        </div>
+        <div class="list" id="adhkarList"></div>
+      </div>
+    </section>
+
+    <!-- TASBIH -->
+    <section id="tasbih" class="grid hidden">
+      <div class="card">
+        <h2>المسبحة التفاعلية</h2>
+        <div class="row">
+          <input class="input" id="tasbihPhrase" placeholder="مثال: سبحان الله" />
+          <input class="input" id="tasbihTarget" type="number" placeholder="هدف اليوم" />
+          <button class="btn" id="startTasbih">ابدأ</button>
+        </div>
+        <div class="kpi">
+          <span class="big" id="tasbihCount">0</span>
+          <span class="small">/ <span id="tasbihGoal">—</span></span>
+        </div>
+        <div class="row">
+          <button class="btn" id="incTasbih">تسبيحة</button>
+          <button class="btn ghost" id="resetTasbih">إعادة</button>
+        </div>
+        <hr/>
+        <div class="small">السجل</div>
+        <div class="list" id="tasbihHistory"></div>
+      </div>
+    </section>
+
+    <!-- CALENDAR -->
+    <section id="calendar" class="grid hidden">
+      <div class="card">
+        <h2>التقويم الهجري & العدّ التنازلي لرمضان</h2>
+        <div id="hijriInfo" class="small">—</div>
+      </div>
+    </section>
+
+    <!-- ASSISTANT -->
+    <section id="assistant" class="grid hidden">
+      <div class="card">
+        <h2>المساعد الذكي (Gemini)</h2>
+        <div class="notice small">سيتحدّث المساعد بنبرة إسلامية مهذّبة، ويذكّر بالأذكار والصلاة عند الطلب. المطوّر: seven_code7 — ليث & بالله.</div>
+        <div class="chat" id="chatBox" aria-live="polite"></div>
+        <div class="row">
+          <input class="input" id="userMsg" placeholder="اكتب سؤالك هنا…" />
+          <button class="btn" id="sendMsg">إرسال</button>
+        </div>
+        <div class="row">
+          <input class="input" id="apiKey" placeholder="Google API Key" value="AIzaSyBNNqFB2z3o6Od8tqDEOiEGX-mXUwz0z-Y" />
+          <input class="input" id="apiUrl" placeholder="Gemini URL" value="https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent" />
+        </div>
+      </div>
+    </section>
+
+    <!-- PROFILE -->
+    <section id="profile" class="grid hidden">
+      <div class="card">
+        <h2>الحساب والإعدادات</h2>
+        <div class="row">
+          <input class="input" id="userName" placeholder="اسم المستخدم" />
+          <select id="theme">
+            <option value="dark" selected>الوضع الداكن</option>
+            <option value="light">الوضع الفاتح</option>
+          </select>
+          <button class="btn" id="saveProfile">حفظ</button>
+        </div>
+        <div class="small">سيتم حفظ الإعدادات محليًا، مع إمكانية الدمج لاحقًا مع نظام حسابات كامل.</div>
+      </div>
+      <div class="footer small">© seven_code7 — ليث & بالله · v0.1-MVP</div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <button data-tab="home">الرئيسية</button>
+    <button data-tab="quran">القرآن</button>
+    <button data-tab="adhkar">الأذكار</button>
+    <button data-tab="tasbih">المسبحة</button>
+    <button data-tab="assistant">المساعد</button>
+  </nav>
+
+  <script src="app.js"></script>
+  <script>
+    if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js');}
+  </script>
+</body>
+</html>
